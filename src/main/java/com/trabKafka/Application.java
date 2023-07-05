@@ -10,9 +10,6 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 
-import com.trabKafka.JsonNodeSerializer;
-import com.trabKafka.JsonNodeDeserializer;
-
 import java.util.Properties;
 
 public class Application {
@@ -31,18 +28,30 @@ public class Application {
     public static void main(String[] args) {
         Properties config = new Properties();
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "trab-kafka");
-        config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "172.21.86.231:9092");
 
         StreamsBuilder builder = new StreamsBuilder();
         ObjectMapper objectMapper = new ObjectMapper();
         
-        Serde<JsonNode> jsonSerde = Serdes.serdeFrom(JsonNodeSerializer.class, JsonNodeDeserializer.class);
+        Serde<JsonNode> jsonSerde = Serdes.serdeFrom(new JsonNodeSerializer(), new JsonNodeDeserializer());
 
-        KStream<String, JsonNode> inputTopic = builder.stream("input-topic",
+        KStream<String, JsonNode> inputTopic = builder.stream("weather-monitor",
                 Consumed.with(Serdes.String(), jsonSerde));
 
         inputTopic.peek((key, value) -> {
             // Process the JSON message
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+            System.out.println("**********************");
+
+            System.out.println("**********************");
             System.out.println("Received JSON: " + value);
         });
 
